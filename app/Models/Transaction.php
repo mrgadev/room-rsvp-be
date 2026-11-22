@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['room_id', 'user_id', 'total_price', 'start_at', 'end_at', 'status'])]
+#[Fillable(['room_id', 'user_id', 'total_price', 'checkin_date', 'checkout_date', 'status'])]
 class Transaction extends Model
 {
     use HasUuids;

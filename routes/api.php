@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
     Route::resource('/rooms', RoomController::class)->names('rooms');
+
+    Route::post('/transaction/create', [TransactionController::class, 'store'])->name('transaction.create');
 });
 
