@@ -12,7 +12,12 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        $rooms = Room::with('category')->latest()->paginate(5);
+
+        return response()->json([
+            'message' => $rooms ? 'Successfully retrieved rooms data' : 'No data',
+            'data' => $rooms
+        ]);
     }
 
     /**
