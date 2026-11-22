@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -31,9 +34,20 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateRoomRequest $request)
     {
-        //
+        $data = $request->validated();
+        // check if incoming request has image uploaded
+        if($request->hasFile('image')) {
+            // upload the image into $data
+            $data['image'] = $request->file('image')->store('rooms', 'public');
+        }
+
+        $room = Room::create($data);
+        return response()->json([
+            'message' => 'Successfullyu created room data',
+            'data' => $room
+        ]);
     }
 
     /**
@@ -41,7 +55,10 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
+        return response()->json([
+            'message' => 'Successfully retriev room data',
+            'data' => $room
+        ]);
     }
 
     /**
@@ -55,9 +72,25 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Room $room)
+    public function update(UpdateRoomRequest $request, Room $room)
     {
-        //
+        $data = $request->validated();
+
+        if($request->hasFile('image')) {
+            // check if room already has image
+            if($room->image) {
+                Storage::disk('public')->delete($room->image);
+            }
+            $data['image'] = $request->file('image')->store('rooms', 'public');
+        } else {
+            $data['image'] = $room->image;
+        }
+
+        $room->update($data);
+        return response()->json([
+            'message' => 'Successfully update room data',
+            'data' => $room
+        ]);
     }
 
     /**
@@ -65,6 +98,11 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        Storage::disk('public')->delete($room->image);
+        $room->delete();
+
+        return response()->json([
+            'message' => 'Room successfuly deleted'
+        ], 201);
     }
 }
