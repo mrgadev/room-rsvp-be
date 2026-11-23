@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RoomController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

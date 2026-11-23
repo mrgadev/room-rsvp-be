@@ -23,7 +23,7 @@ class TransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id'       => ['required', 'integer', 'exists:rooms,id'],
+            'room_id'       => ['required', 'exists:rooms,id'],
             'checkin_date'  => ['required', 'date', 'after_or_equal:today'],
             'checkout_date' => ['required', 'date', 'after:checkin_date'],
         ];

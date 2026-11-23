@@ -32,7 +32,7 @@ class TransactionService
 
         return DB::transaction(function() use ($user_id, $data, $checkin_date, $checkout_date, $nights) {
             // Lock room while creating transaction to prevent race condition
-            $room = Room::whereKey($data['room_id'])
+            $room = Room::where('id', $data['room_id'])
             ->lockForUpdate()
             ->firstOrFail();
 

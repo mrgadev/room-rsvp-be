@@ -48,7 +48,7 @@ class AuthController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         // if user doesn't exist or the password from request doesn't match with the exact user password, send error message and code 401
-        if(!$user || Hash::check($credentials['password'], $user->password)) {
+        if(!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
                 'message' => 'Email or password is invalid'
             ], 401);
